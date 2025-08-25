@@ -8,6 +8,12 @@ namespace Pathfinding.Services
     {
         [SerializeField] AudioSource _startActionSound;
         [SerializeField] AudioSource _endActionSound;
+        [SerializeField] AudioSource _buttonClickSound;
+
+        public void PlayButtonClickSound()
+        {
+            _buttonClickSound.Play();
+        }
 
         public void PlayStartActionSound()
         {

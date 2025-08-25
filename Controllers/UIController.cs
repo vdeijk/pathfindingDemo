@@ -7,12 +7,12 @@ namespace Pathfinding.Controllers
     [DefaultExecutionOrder(-100)]
     public class UIController : MonoBehaviour
     {
+        [Inject] private AgentSpawnService _agentSpawnService;
+        [Inject] private MenuFadeMonobService _menuFadeMonobService;
+
         [SerializeField] CanvasGroup _levelCompletedCV;
         [SerializeField] CanvasGroup _mainMenuCV;
 
-        [Inject] private AgentMoveService _agentMoveService;
-        [Inject] private GridController _gridController;
-        [Inject] private OverheadCameraService _overheadCameraService;
 
         private void Awake()
         {
@@ -37,24 +37,25 @@ namespace Pathfinding.Controllers
         // Show level completed UI when level is finished
         private void LevelProgressionService_OnLevelCompleted(object sender, System.EventArgs e)
         {
-            _levelCompletedCV.gameObject.SetActive(true);
+            _menuFadeMonobService.Fade(true, _levelCompletedCV);
+
             Time.timeScale = 0f;
         }
 
         // Called by UI button to start a new level
         public void CompleteLevel()
         {
-            _levelCompletedCV.gameObject.SetActive(false);
-            _gridController.CreateNewLevel();
-            _agentMoveService.TeleportPlayerToEntrance();
-            _overheadCameraService.InitPosition();
-            Time.timeScale = 1f;
+            Application.Quit();
         }
 
         // Called by UI button to start the game
         public void StartLevel()
         {
-            _mainMenuCV.gameObject.SetActive(false);
+            _agentSpawnService.SpawnPlayer();
+            _agentSpawnService.SpawnEnemies();
+
+            _menuFadeMonobService.Fade(false, _mainMenuCV);
+
             Time.timeScale = 1f;
         }
     }

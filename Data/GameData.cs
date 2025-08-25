@@ -15,5 +15,6 @@ namespace Pathfinding.Data
         public bool PauseInput { get; set; }
         public float RotateInput { get; set; }
         public bool ShowGridInput { get; set; }
+        public bool CenteringInput { get; set; }
     }
 }

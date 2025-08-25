@@ -17,12 +17,10 @@ public class AgentSpawnService
     public void Init(AgentsData data)
     {
         Data = data;
-        SpawnPlayer();
-        SpawnEnemies();
     }
 
     // Spawns all enemy agents at valid positions
-    private void SpawnEnemies()
+    public void SpawnEnemies()
     {
         var validPositions = GetValidSpawnPositions();
 
@@ -42,7 +40,7 @@ public class AgentSpawnService
     }
 
     // Spawns the player agent at the entrance position
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         Vector2Int pos = _levelGeneratorService.Data.Entrance;
         Vector3 worldPos = _levelUtilityService.GetWorldPosition(pos);

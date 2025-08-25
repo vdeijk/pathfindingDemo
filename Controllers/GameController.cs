@@ -41,6 +41,7 @@ namespace Pathfinding.Controllers
                 _inputService.HandleCameraInput();
                 _inputService.HandleMouseInput();
                 _inputService.HandleGridInput();
+                _inputService.HandleCenteringInput();
             }
         }
 

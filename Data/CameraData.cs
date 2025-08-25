@@ -16,6 +16,7 @@ namespace Pathfinding.Data
         [field: SerializeField] public Transform TrackingTargetTransform { get; private set; }
         [field: SerializeField] public CinemachineThirdPersonFollow CinemachineThirdPersonFollow { get; private set; }
         [field: SerializeField] public MeshRenderer TerrainMesh { get; private set; }
+        [field: SerializeField] public float CenteringSmoothConstant { get; private set; }
 
         // Runtime camera state
         public float DefaultZoom { get; set; }

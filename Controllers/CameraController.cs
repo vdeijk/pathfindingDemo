@@ -9,6 +9,7 @@ namespace Pathfinding.Controllers
     public class CameraController : MonoBehaviour
     {
         [Inject] private OverheadCameraService _overheadCameraService;
+        [Inject] private CameraCenteringMonobService _cameraCenteringMonobService;
 
         [SerializeField] CameraData Data;
 
@@ -17,6 +18,8 @@ namespace Pathfinding.Controllers
             Init();
             // Initialize camera service with camera data
             _overheadCameraService.Init(Data);
+            _cameraCenteringMonobService.Init(Data);
+
         }
 
         // Sets camera pan limits based on terrain mesh size

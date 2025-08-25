@@ -4,9 +4,12 @@ using Zenject;
 
 namespace Pathfinding.Services
 {
+    [DefaultExecutionOrder(100)]
     public class OverheadCameraService
     {
         [Inject] private AgentCategoryService _agentCategoryService;
+        [Inject] private CameraCenteringMonobService _cameraCenteringMonobService;
+        [Inject] private AudioMonobService _audioMonobService;
 
         public CameraData Data { get; private set; }
 
@@ -21,6 +24,19 @@ namespace Pathfinding.Services
             _targetZoom = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.VerticalArmLength = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.CameraDistance = Data.DefaultZoom;
+        }
+
+        // Smoothly centers camera on target position
+        public void StartCentering(bool isCentering)
+        {
+            if (!isCentering) return;
+
+            _cameraCenteringMonobService.StopAllCoroutines();
+            Vector3 pos = _agentCategoryService.Data.Player.MovementData.Rb.transform.position;
+            _cameraCenteringMonobService.StartCoroutine(
+                _cameraCenteringMonobService.SmoothCentering(pos));
+
+            _audioMonobService.PlayStartActionSound();
         }
 
         // Sets camera position and rotation to follow the player

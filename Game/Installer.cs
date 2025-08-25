@@ -27,6 +27,8 @@ namespace Pathfinding.Game
             Container.Bind<AgentMoveService>().AsSingle();
             Container.Bind<AgentAnimationService>().AsSingle();
             Container.Bind<AudioMonobService>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<CameraCenteringMonobService>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<MenuFadeMonobService>().FromComponentInHierarchy().AsSingle();
 
             // Bind singleton controllers (one instance per scene)
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();

@@ -43,6 +43,11 @@ namespace Pathfinding.Services
             _overheadCameraService.UpdateZoom(Data.ZoomInput);
         }
 
+        public void HandleCenteringInput()
+        {
+            _overheadCameraService.StartCentering(Data.CenteringInput);
+        }
+
         // Handles mouse input for agent movement
         public void HandleMouseInput()
         {
@@ -67,6 +72,7 @@ namespace Pathfinding.Services
             Data.LeftMouseInput = Input.GetMouseButtonDown(0);
             Data.RightMouseInput = Input.GetMouseButtonDown(1);
             Data.ShowGridInput = Input.GetKeyDown(KeyCode.G);
+            Data.CenteringInput = Input.GetKeyDown(KeyCode.C);
 
             float rotateInput = 0f;
             if (Input.GetKey(KeyCode.Q)) rotateInput += 1f;
