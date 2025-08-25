@@ -1,0 +1,23 @@
+using System;
+using UnityEngine;
+using Unity.Cinemachine;
+
+namespace Pathfinding.Data
+{
+    [Serializable]
+    public class CameraData
+    {
+        [field: SerializeField] public float MinZoom { get; private set; }
+        [field: SerializeField] public float MaxZoom { get; private set; }
+        [field: SerializeField] public float ZoomSpeed { get; private set; }
+        [field: SerializeField] public float MoveSpeed { get; private set; }
+        [field: SerializeField] public float RotateSpeed { get; private set; }
+        [field: SerializeField] public Transform TrackingTargetTransform { get; private set; }
+        [field: SerializeField] public CinemachineThirdPersonFollow CinemachineThirdPersonFollow { get; private set; }
+        [field: SerializeField] public MeshRenderer TerrainMesh { get; private set; }
+
+        public float DefaultZoom { get; set; }
+        public float MaxPanX { get; set; }
+        public float MaxPanY { get; set; }
+    }
+}

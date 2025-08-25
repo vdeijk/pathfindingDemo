@@ -1,0 +1,68 @@
+using Pathfinding.Data;
+using UnityEngine;
+using Zenject;
+
+namespace Pathfinding.Services
+{
+    public class OverheadCameraService
+    {
+        [Inject] private AgentCategoryService _agentCategoryService;
+
+        public CameraData Data { get; private set; }
+
+        private float targetZoom;
+
+        private float curZoom => Data.CinemachineThirdPersonFollow.VerticalArmLength;
+
+        public void Init(CameraData data)
+        {
+            Data = data;
+
+            Data.DefaultZoom = (Data.MaxZoom + Data.MinZoom) / 2;
+            targetZoom = Data.DefaultZoom;
+            Data.CinemachineThirdPersonFollow.VerticalArmLength = Data.DefaultZoom;
+            Data.CinemachineThirdPersonFollow.CameraDistance = Data.DefaultZoom;
+
+        }
+
+        public void InitCamPosition()
+        {
+            Data.TrackingTargetTransform.rotation = Quaternion.identity;
+            Data.TrackingTargetTransform.position = _agentCategoryService.Data.Player.MovementData.BodyTransform.position;
+        }
+
+        public void UpdatePosition(Vector3 cameraMoveInputs)
+        {
+            if (cameraMoveInputs == Vector3.zero) return;
+
+            float moveSpeed = Mathf.Sqrt((Data.MoveSpeed * targetZoom) / Data.DefaultZoom);
+            Vector3 moveVector = Data.TrackingTargetTransform.forward * cameraMoveInputs.z + Data.TrackingTargetTransform.right * cameraMoveInputs.x;
+            Vector3 newPos = Data.TrackingTargetTransform.position + moveVector * moveSpeed * Time.unscaledDeltaTime;
+            float x = Mathf.Clamp(newPos.x, 0, Data.MaxPanX);
+            float z = Mathf.Clamp(newPos.z, 0, Data.MaxPanY);
+
+            Data.TrackingTargetTransform.position = new Vector3(newPos.x, Data.TrackingTargetTransform.position.y, newPos.z);
+        }
+
+        public void UpdateZoom(float input)
+        {
+            if (input != 0)
+            {
+                float zoomChange = input * Time.unscaledDeltaTime * Data.ZoomSpeed;
+                targetZoom = Mathf.Clamp(Data.CinemachineThirdPersonFollow.CameraDistance + zoomChange, Data.MinZoom, Data.MaxZoom);
+
+                Data.CinemachineThirdPersonFollow.VerticalArmLength = Mathf.Lerp(curZoom, targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
+                Data.CinemachineThirdPersonFollow.CameraDistance = Mathf.Lerp(curZoom, targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
+            }
+        }
+
+        public void UpdateRotation(float cameraRotateInput)
+        {
+            if (cameraRotateInput != 0)
+            {
+                float rotateChange = cameraRotateInput * Time.unscaledDeltaTime * Data.RotateSpeed;
+                Data.TrackingTargetTransform.Rotate(0, rotateChange, 0);
+            }
+        }
+    }
+}
