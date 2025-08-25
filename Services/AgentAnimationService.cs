@@ -25,11 +25,5 @@ namespace Pathfinding.Services
                     break;
             }
         }
-
-        public void AnimateDeath(AgentData data)
-        {
-            Animator unitAnimator = data.MovementData.BodyTransform.GetComponentInChildren<Animator>();
-            unitAnimator.SetTrigger("Death");
-        }
     }
 }
