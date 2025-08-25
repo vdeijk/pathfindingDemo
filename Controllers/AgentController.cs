@@ -42,7 +42,7 @@ namespace Pathfinding.Controllers
             else
             {
                 _agentCategoryService.AddPlayer(Data);
-                _overheadCameraService.InitCamPosition(); // Set camera for player
+                _overheadCameraService.InitPosition(); // Set camera for player
             }
         }
 

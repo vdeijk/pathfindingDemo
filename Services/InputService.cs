@@ -69,8 +69,8 @@ namespace Pathfinding.Services
             Data.ShowGridInput = Input.GetKeyDown(KeyCode.G);
 
             float rotateInput = 0f;
-            if (Input.GetKey(KeyCode.Q)) rotateInput -= 1f;
-            if (Input.GetKey(KeyCode.E)) rotateInput += 1f;
+            if (Input.GetKey(KeyCode.Q)) rotateInput += 1f;
+            if (Input.GetKey(KeyCode.E)) rotateInput -= 1f;
             Data.RotateInput = rotateInput;
         }
 

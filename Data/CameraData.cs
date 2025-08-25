@@ -7,6 +7,7 @@ namespace Pathfinding.Data
     [Serializable]
     public class CameraData
     {
+        [field: SerializeField] public Transform LevelPlane { get; private set; }
         [field: SerializeField] public float MinZoom { get; private set; }
         [field: SerializeField] public float MaxZoom { get; private set; }
         [field: SerializeField] public float ZoomSpeed { get; private set; }

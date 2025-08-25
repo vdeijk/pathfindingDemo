@@ -84,6 +84,12 @@ namespace Pathfinding.Services
         // Determines the type of a grid square based on raycast and spawns props/vegetation
         private void SetSquareType(GridSquareData data)
         {
+            if (data.GridPosition == Data.Entrance || data.GridPosition == Data.Exit)
+            {
+                data.GridSquareType.Add(GridSquareType.Normal);
+                return;
+            }
+
             Vector3 pos = _levelUtilityService.GetWorldPosition(data.GridPosition) + Vector3.up * 1000f;
             int hits = Physics.RaycastNonAlloc(pos, Vector3.down, _raycastHits, float.MaxValue);
 

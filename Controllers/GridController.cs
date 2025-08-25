@@ -35,12 +35,12 @@ namespace Pathfinding.Controllers
         public void CreateNewLevel()
         {
             Data.ValidGridPositions.Clear();
+            DestroyGridSquares();
             _levelGeneratorService.CreateGrid();
             _propSpawnService.SetNoiseMap(Data.PropSpawnData);
             _propSpawnService.SetNoiseMap(Data.VegetationSpawnData);
-            DestroyGridSquares();
-            _levelGeneratorService.PlaceGridSquares();
             _levelGeneratorService.SetEntrancAndExit();
+            _levelGeneratorService.PlaceGridSquares();
         }
 
 

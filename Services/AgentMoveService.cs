@@ -73,6 +73,7 @@ namespace Pathfinding.Services
 
             data.MovementData.CurAnimationState = AgentAnimationType.WalkFwd;
             _agentAnimationService.Animate(data);
+            if (!data.AIData.IsEnemy) _audioController.PlayStartActionSound();
         }
 
         // Handles completion of movement/action and resets agent state
@@ -90,6 +91,7 @@ namespace Pathfinding.Services
 
             data.MovementData.CurAnimationState = AgentAnimationType.Idle;
             _agentAnimationService.Animate(data);
+            if (!data.AIData.IsEnemy) _audioController.PlayEndActionSound();
 
             OnActionCompleted?.Invoke(this, new ActionCompletedEventArgs(data));
         }
@@ -111,20 +113,15 @@ namespace Pathfinding.Services
             Quaternion targetRot = Quaternion.LookRotation(worldDirection);
 
             float angleDiff = Quaternion.Angle(data.Rb.transform.rotation, targetRot);
-            if (angleDiff < 0.1f)
-            {
-                data.Rb.rotation = targetRot;
-
-                return MovementType.Move;
-            }
-
             Vector2Int curPos = _levelUtilityService.GetGridPosition(data.Rb.transform.position);
-            if (data.CurTargetPos != curPos)
+            if (angleDiff > 0.1f && data.CurTargetPos != curPos)
             {
                 return MovementType.Rotate;
             }
 
-            return MovementType.None;
+            data.Rb.rotation = targetRot;
+
+            return MovementType.Move;
         }
 
         // Moves the agent towards the next waypoint

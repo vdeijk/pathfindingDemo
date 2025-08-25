@@ -6,6 +6,19 @@ namespace Pathfinding.Services
 {
     public class AudioMonobService: MonoBehaviour
     {
+        [SerializeField] AudioSource _startActionSound;
+        [SerializeField] AudioSource _endActionSound;
+
+        public void PlayStartActionSound()
+        {
+            _startActionSound.Play();
+        }
+
+        public void PlayEndActionSound()
+        {
+            _endActionSound.Play();
+        }
+
         // Starts a fade coroutine for the given audio data
         public void StartFade(AudioData data)
         {

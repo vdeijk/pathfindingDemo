@@ -5,6 +5,5 @@ namespace Pathfinding.Data
         Move,
         Rotate,
         Next,
-        None,
     }
 }

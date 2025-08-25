@@ -24,7 +24,7 @@ namespace Pathfinding.Services
         }
 
         // Sets camera position and rotation to follow the player
-        public void InitCamPosition()
+        public void InitPosition()
         {
             Data.TrackingTargetTransform.rotation = Quaternion.identity;
             Data.TrackingTargetTransform.position = _agentCategoryService.Data.Player.MovementData.BodyTransform.position;
@@ -38,10 +38,20 @@ namespace Pathfinding.Services
             float moveSpeed = Mathf.Sqrt((Data.MoveSpeed * _targetZoom) / Data.DefaultZoom);
             Vector3 moveVector = Data.TrackingTargetTransform.forward * cameraMoveInputs.z + Data.TrackingTargetTransform.right * cameraMoveInputs.x;
             Vector3 newPos = Data.TrackingTargetTransform.position + moveVector * moveSpeed * Time.unscaledDeltaTime;
-            float x = Mathf.Clamp(newPos.x, 0, Data.MaxPanX);
-            float z = Mathf.Clamp(newPos.z, 0, Data.MaxPanY);
 
-            Data.TrackingTargetTransform.position = new Vector3(newPos.x, Data.TrackingTargetTransform.position.y, newPos.z);
+            // Get LevelPlane bounds
+            Bounds planeBounds = Data.LevelPlane.GetComponent<MeshRenderer>().bounds;
+
+            // Clamp position to plane bounds
+            float minX = planeBounds.min.x;
+            float maxX = planeBounds.max.x;
+            float minZ = planeBounds.min.z;
+            float maxZ = planeBounds.max.z;
+
+            float clampedX = Mathf.Clamp(newPos.x, minX, maxX);
+            float clampedZ = Mathf.Clamp(newPos.z, minZ, maxZ);
+
+            Data.TrackingTargetTransform.position = new Vector3(clampedX, Data.TrackingTargetTransform.position.y, clampedZ);
         }
 
         // Updates camera zoom based on input
