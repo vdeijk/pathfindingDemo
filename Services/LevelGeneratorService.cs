@@ -14,7 +14,7 @@ namespace Pathfinding.Services
 
         public GridData Data { get; private set; }
 
-        private RaycastHit[] raycastHits = new RaycastHit[5];
+        private RaycastHit[] _raycastHits = new RaycastHit[5];
 
         public void ToggleGrid(bool input)
         {
@@ -79,15 +79,15 @@ namespace Pathfinding.Services
         private void SetSquareType(GridSquareData data)
         {
             Vector3 pos = _levelUtilityService.GetWorldPosition(data.GridPosition) + Vector3.up * 1000f;
-            int hits = Physics.RaycastNonAlloc(pos, Vector3.down, raycastHits, float.MaxValue);
+            int hits = Physics.RaycastNonAlloc(pos, Vector3.down, _raycastHits, float.MaxValue);
 
             if (hits > 0)
             {
                 for (int i = 0; i < hits; i++)
                 {
-                    float slope = Vector3.Angle(raycastHits[i].normal, Vector3.up);
-                    float height = raycastHits[i].point.y;
-                    LayerMask layer = raycastHits[i].collider.gameObject.layer;
+                    float slope = Vector3.Angle(_raycastHits[i].normal, Vector3.up);
+                    float height = _raycastHits[i].point.y;
+                    LayerMask layer = _raycastHits[i].collider.gameObject.layer;
 
                     if ((Data.InaccessibleLayer.value & (1 << layer)) != 0)
                     {

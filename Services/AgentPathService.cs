@@ -9,7 +9,8 @@ namespace Pathfinding.Services
     // Change FindPath from static to instance method, and use the injected _levelGeneratorService instance.
     // Also remove the static Instance field, as Zenject will handle instantiation.
 
-    [DefaultExecutionOrder(100)]
+    [DefaultExecutionOrder(100)]
+
     public class AgentPathService
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;

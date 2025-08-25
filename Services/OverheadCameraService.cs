@@ -10,16 +10,16 @@ namespace Pathfinding.Services
 
         public CameraData Data { get; private set; }
 
-        private float targetZoom;
+        private float _targetZoom;
 
-        private float curZoom => Data.CinemachineThirdPersonFollow.VerticalArmLength;
+        private float _curZoom => Data.CinemachineThirdPersonFollow.VerticalArmLength;
 
         public void Init(CameraData data)
         {
             Data = data;
 
             Data.DefaultZoom = (Data.MaxZoom + Data.MinZoom) / 2;
-            targetZoom = Data.DefaultZoom;
+            _targetZoom = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.VerticalArmLength = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.CameraDistance = Data.DefaultZoom;
 
@@ -35,7 +35,7 @@ namespace Pathfinding.Services
         {
             if (cameraMoveInputs == Vector3.zero) return;
 
-            float moveSpeed = Mathf.Sqrt((Data.MoveSpeed * targetZoom) / Data.DefaultZoom);
+            float moveSpeed = Mathf.Sqrt((Data.MoveSpeed * _targetZoom) / Data.DefaultZoom);
             Vector3 moveVector = Data.TrackingTargetTransform.forward * cameraMoveInputs.z + Data.TrackingTargetTransform.right * cameraMoveInputs.x;
             Vector3 newPos = Data.TrackingTargetTransform.position + moveVector * moveSpeed * Time.unscaledDeltaTime;
             float x = Mathf.Clamp(newPos.x, 0, Data.MaxPanX);
@@ -49,10 +49,10 @@ namespace Pathfinding.Services
             if (input != 0)
             {
                 float zoomChange = input * Time.unscaledDeltaTime * Data.ZoomSpeed;
-                targetZoom = Mathf.Clamp(Data.CinemachineThirdPersonFollow.CameraDistance + zoomChange, Data.MinZoom, Data.MaxZoom);
+                _targetZoom = Mathf.Clamp(Data.CinemachineThirdPersonFollow.CameraDistance + zoomChange, Data.MinZoom, Data.MaxZoom);
 
-                Data.CinemachineThirdPersonFollow.VerticalArmLength = Mathf.Lerp(curZoom, targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
-                Data.CinemachineThirdPersonFollow.CameraDistance = Mathf.Lerp(curZoom, targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
+                Data.CinemachineThirdPersonFollow.VerticalArmLength = Mathf.Lerp(_curZoom, _targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
+                Data.CinemachineThirdPersonFollow.CameraDistance = Mathf.Lerp(_curZoom, _targetZoom, Time.unscaledDeltaTime * Data.ZoomSpeed);
             }
         }
 

@@ -18,10 +18,12 @@ namespace Pathfinding.Controllers
         [SerializeField] AudioData AudioData;
         [SerializeField] AIData AIData;
 
-        public AgentData Data = new AgentData();
+        public AgentData Data;
 
         private void Awake()
         {
+            Data = new AgentData();
+
             Data.MovementData = MovementData;
             Data.AudioData = AudioData;
             Data.AIData = AIData;

@@ -8,16 +8,16 @@ namespace Pathfinding.Controllers
     [DefaultExecutionOrder(-100)]
     public class UIController : MonoBehaviour
     {
-        [SerializeField] CanvasGroup levelCompletedCV;
-        [SerializeField] CanvasGroup mainMenuCV;
+        [SerializeField] CanvasGroup _levelCompletedCV;
+        [SerializeField] CanvasGroup _mainMenuCV;
 
         [Inject] private AgentMoveService _agentMoveService;
         [Inject] private GridController _gridController;
 
         private void Awake()
         {
-            levelCompletedCV.gameObject.SetActive(false);
-            mainMenuCV.gameObject.SetActive(true);
+            _levelCompletedCV.gameObject.SetActive(false);
+            _mainMenuCV.gameObject.SetActive(true);
         }
 
         private void OnEnable()
@@ -32,12 +32,12 @@ namespace Pathfinding.Controllers
 
         private void LevelProgressionService_OnLevelCompleted(object sender, System.EventArgs e)
         {
-            levelCompletedCV.gameObject.SetActive(true);
+            _levelCompletedCV.gameObject.SetActive(true);
         }
 
         public void CompleteLevel()
         {
-            levelCompletedCV.gameObject.SetActive(false);
+            _levelCompletedCV.gameObject.SetActive(false);
 
             _gridController.CreateNewLevel();
             _agentMoveService.TeleportPlayerToEntrance();
@@ -45,7 +45,7 @@ namespace Pathfinding.Controllers
 
         public void StartLevel()
         {
-            mainMenuCV.gameObject.SetActive(false);
+            _mainMenuCV.gameObject.SetActive(false);
         }
     }
 }
