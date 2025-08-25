@@ -11,26 +11,26 @@ namespace Pathfinding.Services
         public CameraData Data { get; private set; }
 
         private float _targetZoom;
-
         private float _curZoom => Data.CinemachineThirdPersonFollow.VerticalArmLength;
 
+        // Initializes camera data and sets default zoom
         public void Init(CameraData data)
         {
             Data = data;
-
             Data.DefaultZoom = (Data.MaxZoom + Data.MinZoom) / 2;
             _targetZoom = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.VerticalArmLength = Data.DefaultZoom;
             Data.CinemachineThirdPersonFollow.CameraDistance = Data.DefaultZoom;
-
         }
 
+        // Sets camera position and rotation to follow the player
         public void InitCamPosition()
         {
             Data.TrackingTargetTransform.rotation = Quaternion.identity;
             Data.TrackingTargetTransform.position = _agentCategoryService.Data.Player.MovementData.BodyTransform.position;
         }
 
+        // Updates camera position based on input
         public void UpdatePosition(Vector3 cameraMoveInputs)
         {
             if (cameraMoveInputs == Vector3.zero) return;
@@ -44,6 +44,7 @@ namespace Pathfinding.Services
             Data.TrackingTargetTransform.position = new Vector3(newPos.x, Data.TrackingTargetTransform.position.y, newPos.z);
         }
 
+        // Updates camera zoom based on input
         public void UpdateZoom(float input)
         {
             if (input != 0)
@@ -56,6 +57,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Updates camera rotation based on input
         public void UpdateRotation(float cameraRotateInput)
         {
             if (cameraRotateInput != 0)

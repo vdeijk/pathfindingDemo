@@ -7,7 +7,6 @@ namespace Pathfinding.Services
 {
     public class ActionCompletedEventArgs : EventArgs
     {
-
         public AgentData Agent { get; }
 
         public ActionCompletedEventArgs(AgentData agent)
@@ -29,6 +28,7 @@ namespace Pathfinding.Services
 
         public static event EventHandler<ActionCompletedEventArgs> OnActionCompleted;
 
+        // Updates agent movement and handles action completion
         public void UpdateAction(AgentData data)
         {
             if (data.MovementData.PathWaypoints != null)
@@ -54,6 +54,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Starts a new movement action for the agent
         public void StartAction(AgentData data)
         {
             GridData gridData = _levelGeneratorService.Data;
@@ -74,6 +75,7 @@ namespace Pathfinding.Services
             _agentAnimationService.Animate(data);
         }
 
+        // Handles completion of movement/action and resets agent state
         private void CompleteAction(AgentData data)
         {
             Vector2Int curPos = _levelUtilityService.GetGridPosition(data.MovementData.Rb.transform.position);
@@ -92,6 +94,7 @@ namespace Pathfinding.Services
             OnActionCompleted?.Invoke(this, new ActionCompletedEventArgs(data));
         }
 
+        // Determines the next movement type for the agent
         private MovementType SetType(MovementData data)
         {
             Vector3 targetWorldPos = _levelUtilityService.GetWorldPosition(data.CurTargetPos);
@@ -124,6 +127,7 @@ namespace Pathfinding.Services
             return MovementType.None;
         }
 
+        // Moves the agent towards the next waypoint
         private void UpdateMovement(AgentData data)
         {
             Vector2Int nextGridPos = data.MovementData.CurTargetPos;
@@ -146,6 +150,7 @@ namespace Pathfinding.Services
             data.MovementData.Rb.MovePosition(newPos);
         }
 
+        // Rotates the agent towards the target direction
         private void UpdateRotation(MovementData data)
         {
             Vector2Int curPos = _levelUtilityService.GetGridPosition(data.Rb.transform.position);
@@ -162,6 +167,7 @@ namespace Pathfinding.Services
             data.Rb.MoveRotation(newRotation);
         }
 
+        // Teleports the player agent to the entrance position
         public void TeleportPlayerToEntrance()
         {
             AgentData data = _agentCategoryService.Data.Player;

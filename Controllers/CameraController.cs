@@ -15,9 +15,11 @@ namespace Pathfinding.Controllers
         private void Start()
         {
             Init();
+            // Initialize camera service with camera data
             _overheadCameraService.Init(Data);
         }
 
+        // Sets camera pan limits based on terrain mesh size
         private void Init()
         {
             Data.MaxPanX = Data.TerrainMesh.bounds.size.x;

@@ -10,8 +10,10 @@ namespace Pathfinding.Services
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;
 
+        // Shortcut to grid data
         public GridData Data => _levelGeneratorService.Data;
 
+        // Returns the mouse position in world space by raycasting against the terrain
         public Vector3 GetPosition()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

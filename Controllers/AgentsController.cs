@@ -15,6 +15,7 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
+            // Initialize agent category and spawn services with Inspector-assigned data
             _agentCategoryService.Init(Data);
             _agentSpawnService.Init(Data);
         }

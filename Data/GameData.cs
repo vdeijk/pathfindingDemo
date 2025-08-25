@@ -6,6 +6,7 @@ namespace Pathfinding.Data
     [Serializable]
     public class GameData
     {
+        // Stores current game and input state
         public bool AreControlsEnabled { get; set; } = true;
         public Vector3 MoveInputs { get; set; }
         public float ZoomInput { get; set; }

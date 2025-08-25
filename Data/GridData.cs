@@ -18,12 +18,17 @@ namespace Pathfinding.Data
         [field: SerializeField] public LayerMask InaccessibleLayer { get; private set; }
         [field: SerializeField] public int ForestCost { get; private set; }
 
+        // List of valid grid positions for agent movement
         public List<Vector2Int> ValidGridPositions { get; set; } = new List<Vector2Int>();
+        // 2D array of grid square data
         public GridSquareData[,] Squares { get; set; }
+        // Grid dimensions
         public int Width { get; set; } = 10;
         public int Height { get; set; } = 10;
+        // Entrance and exit positions in the grid
         public Vector2Int Entrance { get; set; }
         public Vector2Int Exit { get; set; }
+        // Data for procedural prop and vegetation spawning
         public GridSpawnData PropSpawnData { get; set; }
         public GridSpawnData VegetationSpawnData { get; set; }
     }

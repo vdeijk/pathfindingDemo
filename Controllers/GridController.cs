@@ -18,20 +18,20 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
+            // Assign spawn data and initialize services
             Data.PropSpawnData = PropSpawnData;
             Data.VegetationSpawnData = VegetationSpawnData;
             _levelUtilityService.Init(Data);
-
-
             _levelGeneratorService.Init(Data);
 
-
+            // Optionally create a new level at startup
             if (Data.CreateLevelOnPlay)
             {
                 CreateNewLevel();
             }
         }
 
+        // Creates a new level and places grid squares and props
         public void CreateNewLevel()
         {
             Data.ValidGridPositions.Clear();
@@ -44,6 +44,7 @@ namespace Pathfinding.Controllers
         }
 
 
+        // Destroys all grid square GameObjects under the parent
         public void DestroyGridSquares()
         {
             for (int i = Data.Parent.childCount; i > 0; --i)
@@ -52,6 +53,7 @@ namespace Pathfinding.Controllers
             }
         }
 
+        // Destroys the first child grid square GameObject
         public void DestroyGridSquare()
         {
             DestroyImmediate(Data.Parent.GetChild(0).gameObject);

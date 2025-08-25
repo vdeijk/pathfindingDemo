@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Pathfinding.Data
 {
+    // Centralized color definitions for grid square types
     public static class ColorData
     {
         public static readonly Color32 Normal = new Color32(139, 69, 19, 255);  // Brown

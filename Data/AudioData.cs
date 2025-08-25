@@ -11,7 +11,9 @@ namespace Pathfinding.Data
         [field: SerializeField] public AudioClip AudioClip { get; private set; }
         [field: SerializeField] public float FadeDuration { get; private set; }
 
+        // Used to track the current fade coroutine
         public Coroutine FadeRoutine { get; set; }
+        // Target volume for fading
         public float TargetVolume { get; set; }
     }
 }

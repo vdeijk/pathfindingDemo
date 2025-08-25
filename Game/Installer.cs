@@ -4,16 +4,17 @@ using Pathfinding.Controllers;
 
 namespace Pathfinding.Game
 {
+    // Installs all game services and controllers into the Zenject dependency container
     public class GameInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
-            //Game
+            // Bind core game controller and progression services
             Container.Bind<GameController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<LevelProgressionService>().AsSingle();
             Container.Bind<InputService>().AsSingle();
 
-            //Services
+            // Bind all game services as singletons
             Container.Bind<LevelUtilityService>().AsSingle();
             Container.Bind<GridAgentService>().AsSingle();
             Container.Bind<LevelGeneratorService>().AsSingle();
@@ -27,16 +28,15 @@ namespace Pathfinding.Game
             Container.Bind<AgentAnimationService>().AsSingle();
             Container.Bind<AudioMonobService>().FromComponentInHierarchy().AsSingle();
 
-            //Singleton Controllers
+            // Bind singleton controllers (one instance per scene)
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<CameraController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<AIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<AgentsController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<GridController>().FromComponentInHierarchy().AsSingle();
 
-            // Transient controllers
+            // Bind AgentController as transient (multiple instances allowed)
             Container.Bind<AgentController>().FromComponentInHierarchy().AsTransient();
-
         }
     }
 }

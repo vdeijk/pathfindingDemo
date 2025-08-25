@@ -14,7 +14,9 @@ namespace Pathfinding.Data
         [field: SerializeField] public Transform EnemyParent;
         [field: SerializeField] public int NumberOfEnemies;
 
+        // List of all enemy agents in the scene
         public List<AgentData> Enemies { get; set; } = new List<AgentData>();
+        // Reference to the player agent
         public AgentData Player { get; set; }
     }
 }

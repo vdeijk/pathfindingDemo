@@ -12,8 +12,10 @@ namespace Pathfinding.Services
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private DiContainer _container;
 
+        // Shortcut to grid data
         private GridData Data => _levelGeneratorService.Data;
 
+        // Generates a noise map for procedural prop/vegetation spawning
         public void SetNoiseMap(GridSpawnData gridSpawnData)
         {
             gridSpawnData.NoiseMap = new Texture2D(Data.Width, Data.Height, TextureFormat.RGB24, false);
@@ -32,7 +34,7 @@ namespace Pathfinding.Services
             gridSpawnData.NoiseMap.Apply();
         }
 
-
+        // Attempts to spawn vegetation based on noise and threshold
         public void TrySpawnVegetation(GridSquareData squareData, GridSpawnData spawnData)
         {
             float noiseValue = spawnData.NoiseMap.GetPixel(squareData.GridPosition.x, squareData.GridPosition.y).g;
@@ -50,6 +52,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Attempts to spawn props based on noise and threshold
         public bool TrySpawnProps(GridSquareData squareData, GridSpawnData spawnData)
         {
             float noiseValue = spawnData.NoiseMap.GetPixel(squareData.GridPosition.x, squareData.GridPosition.y).g;
@@ -58,13 +61,13 @@ namespace Pathfinding.Services
             if (noiseValue > threshold)
             {
                 Spawn(squareData, spawnData);
-
                 return true;
             }
 
             return false;
         }
 
+        // Spawns a random prefab at the grid square position with random scale
         private void Spawn(GridSquareData squareData, GridSpawnData spawnData)
         {
             List<Vector3> spawnPositions = new List<Vector3>();

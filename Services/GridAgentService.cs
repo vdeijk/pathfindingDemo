@@ -10,6 +10,7 @@ namespace Pathfinding.Services
         [Inject] private LevelGeneratorService _levelGeneratorService;
         [Inject] private LevelUtilityService _levelUtilityService;
 
+        // Adds an agent to the grid square at its current position
         public void AddAgent(AgentData data)
         {
             Vector2Int unitGridPosition = _levelUtilityService.GetGridPosition(data.MovementData.Rb.transform.position);
@@ -19,6 +20,7 @@ namespace Pathfinding.Services
             curGridSquare.Agents.Add(data);
         }
 
+        // Removes an agent from the specified grid square
         public void RemoveAgent(AgentData data, Vector2Int gridPos)
         {
             GridSquareData gridSquare = _levelGeneratorService.Data.Squares[gridPos.x, gridPos.y];

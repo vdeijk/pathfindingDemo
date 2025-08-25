@@ -15,6 +15,7 @@ namespace Pathfinding.Data
         [field: SerializeField] public float ThresholdMin { get; private set; }
         [field: SerializeField] public float ThresholdMax { get; private set; }
 
+        // Noise map used for procedural spawning
         public Texture2D NoiseMap;
     }
 }

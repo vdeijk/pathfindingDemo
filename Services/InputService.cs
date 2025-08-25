@@ -17,21 +17,25 @@ namespace Pathfinding.Services
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private AgentMoveService _agentMoveService;
 
+        // Initializes the service with Inspector-assigned game data
         public void Init(GameData data)
         {
             Data = data;
         }
 
+        // Handles grid visibility toggling
         public void HandleGridInput()
         {
             _levelGeneratorService.ToggleGrid(Data.ShowGridInput);
         }
 
+        // Handles pause input (expand for pause logic)
         public void HandlePauseInput()
         {
             if (!Data.PauseInput) return;
         }
 
+        // Handles camera movement, rotation, and zoom
         public void HandleCameraInput()
         {
             _overheadCameraService.UpdatePosition(Data.MoveInputs);
@@ -39,6 +43,7 @@ namespace Pathfinding.Services
             _overheadCameraService.UpdateZoom(Data.ZoomInput);
         }
 
+        // Handles mouse input for agent movement
         public void HandleMouseInput()
         {
             bool isOverUI = EventSystem.current.IsPointerOverGameObject();
@@ -53,6 +58,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Obtains user input and updates game data
         public void ObtainUserInputs()
         {
             Data.MoveInputs = ObtainCameraInputsMove();
@@ -68,6 +74,7 @@ namespace Pathfinding.Services
             Data.RotateInput = rotateInput;
         }
 
+        // Returns camera movement input vector based on WASD keys
         private Vector3 ObtainCameraInputsMove()
         {
             Vector3 inputMoveDir = new Vector3(0, 0, 0);

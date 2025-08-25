@@ -15,11 +15,13 @@ namespace Pathfinding.Controllers
 
         private void Awake()
         {
+            // Initialize input service with game data
             _inputService.Init(Data);
         }
 
         private void OnEnable()
         {
+            // Subscribe to agent action completion events
             AgentMoveService.OnActionCompleted += AgentMoveService_OnActionCompleted;
         }
 
@@ -30,6 +32,7 @@ namespace Pathfinding.Controllers
 
         private void Update()
         {
+            // Handle user input and game controls
             _inputService.ObtainUserInputs();
             _inputService.HandlePauseInput();
 
@@ -41,6 +44,7 @@ namespace Pathfinding.Controllers
             }
         }
 
+        // Called when an agent completes its action; checks for level completion
         private void AgentMoveService_OnActionCompleted(object sender, ActionCompletedEventArgs e)
         {
             _levelProgressionService.CheckCompletion(e.Agent.MovementData);

@@ -16,6 +16,7 @@ namespace Pathfinding.Services
 
         private RaycastHit[] _raycastHits = new RaycastHit[5];
 
+        // Toggles grid visibility in the scene
         public void ToggleGrid(bool input)
         {
             if (!input) return;
@@ -24,17 +25,20 @@ namespace Pathfinding.Services
             Data.Parent.gameObject.SetActive(!isActive);
         }
 
+        // Initializes the service with Inspector-assigned grid data
         public void Init(GridData data)
         {
             Data = data;
         }
 
+        // Sets entrance and exit positions based on transforms
         public void SetEntrancAndExit()
         {
             Data.Entrance = _levelUtilityService.GetGridPosition(Data.EntranceTransform.position);
             Data.Exit = _levelUtilityService.GetGridPosition(Data.ExitTransform.position);
         }
 
+        // Creates the grid and initializes grid square data
         public void CreateGrid()
         {
             Data.Width = Mathf.RoundToInt(Data.MeshRenderer.bounds.size.x) / Mathf.RoundToInt(Data.CellSize);
@@ -53,6 +57,7 @@ namespace Pathfinding.Services
             Data.Squares = gridSquares;
         }
 
+        // Places grid squares and sets their types and colors
         public void PlaceGridSquares()
         {
             for (int x = 0; x < Data.Width; x++)
@@ -76,6 +81,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Determines the type of a grid square based on raycast and spawns props/vegetation
         private void SetSquareType(GridSquareData data)
         {
             Vector3 pos = _levelUtilityService.GetWorldPosition(data.GridPosition) + Vector3.up * 1000f;
@@ -103,6 +109,7 @@ namespace Pathfinding.Services
                     }
                     else if ((Data.TerrainLayer.value & (1 << layer)) != 0)
                     {
+                        // Try to spawn props and vegetation, mark as inaccessible/forest if successful
                         if (_propSpawnService.TrySpawnProps(data, Data.PropSpawnData))
                         {
                             data.GridSquareType.Add(GridSquareType.Inaccessible);
@@ -122,6 +129,7 @@ namespace Pathfinding.Services
 
                 var renderer = data.GO.GetComponent<MeshRenderer>();
 
+                // Set color based on grid square type
                 if (data.GridSquareType.Contains(GridSquareType.High))
                 {
                     renderer.material.color = SetColorAlpha(ColorData.High);
@@ -145,6 +153,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Sets alpha for grid square color
         private Color32 SetColorAlpha(Color32 color)
         {
             Color32 newColor = color;
@@ -153,6 +162,7 @@ namespace Pathfinding.Services
             return color;
         }
 
+        // Instantiates a grid square prefab at the specified position
         private GameObject InstantiateGridSquare(Vector2Int gridPos, Transform prefab)
         {
             Vector3 pos = _levelUtilityService.GetWorldPosition(new Vector2Int(gridPos.x, gridPos.y));

@@ -22,8 +22,8 @@ namespace Pathfinding.Controllers
 
         private void Awake()
         {
+            // Compose AgentData from Inspector-assigned sub-data
             Data = new AgentData();
-
             Data.MovementData = MovementData;
             Data.AudioData = AudioData;
             Data.AIData = AIData;
@@ -31,22 +31,24 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
+            // Animate agent and register with category service
             _agentAnimationService.Animate(Data);
 
             if (AIData.IsEnemy)
             {
                 _agentCategoryService.AddEnemy(Data);
-                _agentPathService.InitPatrol(Data);
+                _agentPathService.InitPatrol(Data); // Set up patrol for enemy
             }
             else
             {
                 _agentCategoryService.AddPlayer(Data);
-                _overheadCameraService.InitCamPosition();
+                _overheadCameraService.InitCamPosition(); // Set camera for player
             }
         }
 
         private void Update()
         {
+            // Update agent movement/action each frame
             _agentMoveService.UpdateAction(Data);
         }
     }

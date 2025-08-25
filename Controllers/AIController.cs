@@ -14,10 +14,12 @@ namespace Pathfinding.Controllers
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private AgentMoveService _agentMoveService;
 
+        // Provides access to all enemy agents
         public List<AgentData> enemies => _agentCategoryService.Data.Enemies;
 
         private void OnEnable()
         {
+            // Subscribe to agent action completion events
             AgentMoveService.OnActionCompleted += AgentMoveService_OnActionCompleted;
         }
 
@@ -28,6 +30,7 @@ namespace Pathfinding.Controllers
 
         private void Update()
         {
+            // Handle enemy waiting logic and trigger new actions when wait is over
             foreach (AgentData enemy in enemies)
             {
                 if (enemy.AIData.IsWaiting)
@@ -43,6 +46,8 @@ namespace Pathfinding.Controllers
                 }
             }
         }
+
+        // Handles patrol switching for enemies when their action completes
         private void AgentMoveService_OnActionCompleted(object sender, ActionCompletedEventArgs e)
         {
             if (e.Agent.AIData == null) return;

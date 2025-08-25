@@ -6,11 +6,8 @@ using Zenject;
 
 namespace Pathfinding.Services
 {
-    // Change FindPath from static to instance method, and use the injected _levelGeneratorService instance.
-    // Also remove the static Instance field, as Zenject will handle instantiation.
-
+    // Implements A* pathfinding and patrol initialization for agents
     [DefaultExecutionOrder(100)]
-
     public class AgentPathService
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;
@@ -37,6 +34,7 @@ namespace Pathfinding.Services
             }
         }
 
+        // Initializes patrol points for an enemy agent and starts its movement
         public void InitPatrol(AgentData enemy)
         {
             enemy.AIData.PointA = _levelUtilityService.GetGridPosition(enemy.MovementData.BodyTransform.position);
@@ -76,11 +74,6 @@ namespace Pathfinding.Services
         /// <summary>
         /// Finds the shortest path from start to goal using the A* algorithm.
         /// </summary>
-        /// <param name="start">Starting grid position</param>
-        /// <param name="goal">Goal grid position</param>
-        /// <param name="isWalkable">Function to determine if a grid position is walkable</param>
-        /// <param name="gridWidth">Width of the grid</param>
-        /// <param name="gridHeight">Height of the grid</param>
         /// <returns>List of grid positions representing the path, or null if no path found</returns>
         public List<Vector2Int> FindPath(MovementData data)
         {

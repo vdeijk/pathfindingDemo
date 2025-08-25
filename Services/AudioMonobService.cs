@@ -6,6 +6,7 @@ namespace Pathfinding.Services
 {
     public class AudioMonobService: MonoBehaviour
     {
+        // Starts a fade coroutine for the given audio data
         public void StartFade(AudioData data)
         {
             if (data.FadeRoutine != null) StopCoroutine(data.FadeRoutine);
@@ -13,7 +14,7 @@ namespace Pathfinding.Services
             data.FadeRoutine = StartCoroutine(Fade(data));
         }
 
-        // Fades the volume of an AudioSource from intialValue to targetValue over duration
+        // Fades the volume of an AudioSource from initial value to target value over duration
         public IEnumerator Fade(AudioData data)
         {
             float time = 0;

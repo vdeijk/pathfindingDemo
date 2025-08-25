@@ -7,21 +7,21 @@ using Zenject;
 [DefaultExecutionOrder(100)]
 public class AgentSpawnService
 {
-
     [Inject] private DiContainer _container;
     [Inject] private LevelGeneratorService _levelGeneratorService;
     [Inject] private LevelUtilityService _levelUtilityService;
 
     public AgentsData Data { get; private set; }
 
+    // Initializes the service and spawns player and enemies
     public void Init(AgentsData data)
     {
         Data = data;
-
         SpawnPlayer();
         SpawnEnemies();
     }
 
+    // Spawns all enemy agents at valid positions
     private void SpawnEnemies()
     {
         var validPositions = GetValidSpawnPositions();
@@ -34,21 +34,25 @@ public class AgentSpawnService
                 Vector2Int pos = validPositions[idx];
                 Vector3 worldPos = _levelUtilityService.GetWorldPosition(pos);
 
+                // Instantiate enemy prefab using Zenject for injection
                 GameObject agent = _container.InstantiatePrefab(Data.EnemyPrefab, worldPos,
                     Quaternion.identity, Data.EnemyParent);
             }
         }
     }
 
+    // Spawns the player agent at the entrance position
     private void SpawnPlayer()
     {
         Vector2Int pos = _levelGeneratorService.Data.Entrance;
         Vector3 worldPos = _levelUtilityService.GetWorldPosition(pos);
 
+        // Instantiate player prefab using Zenject for injection
         GameObject agent = _container.InstantiatePrefab(Data.PlayerPrefab, worldPos,
             Quaternion.identity, Data.PlayerParent);
     }
 
+    // Returns a list of valid grid positions for enemy spawning
     private List<Vector2Int> GetValidSpawnPositions()
     {
         var positions = new List<Vector2Int>();
