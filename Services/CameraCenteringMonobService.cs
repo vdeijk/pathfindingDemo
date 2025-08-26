@@ -1,16 +1,33 @@
-using UnityEngine;
-using System.Collections;
 using Pathfinding.Data;
+using System.Collections;
+using UnityEngine;
+using Zenject;
 
 namespace Pathfinding.Services
 {
     public class CameraCenteringMonobService : MonoBehaviour
     {
+        [Inject] private AudioMonobService _audioMonobService;
+        [Inject] private AgentCategoryService _agentCategoryService;
+
         private CameraData _data;
 
         public void Init(CameraData data)
         {
             _data = data;
+        }
+
+        // Smoothly centers camera on target position
+        public void StartCentering(bool isCentering)
+        {
+            if (!isCentering) return;
+
+            StopAllCoroutines();
+            Vector3 pos = _agentCategoryService.Data.Player.MovementData.Rb.transform.position;
+            StartCoroutine(
+                SmoothCentering(pos));
+
+            _audioMonobService.PlayStartActionSound();
         }
 
         // Smoothly moves camera to target position

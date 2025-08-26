@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Pathfinding.Data
 {
     [Serializable]
+    //Stores data for fadable audio sources
     public class AudioData
     {
         [field: SerializeField] public float MaxVolume { get; private set; }

@@ -16,6 +16,7 @@ namespace Pathfinding.Services
         [Inject] private OverheadCameraService _overheadCameraService;
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private AgentMoveService _agentMoveService;
+        [Inject] private CameraCenteringMonobService _cameraCenteringMonobService;
 
         // Initializes the service with Inspector-assigned game data
         public void Init(InputData data)
@@ -35,7 +36,8 @@ namespace Pathfinding.Services
             _overheadCameraService.UpdatePosition(Data.MoveInputs);
             _overheadCameraService.UpdateRotation(Data.RotateInput);
             _overheadCameraService.UpdateZoom(Data.ZoomInput);
-            _overheadCameraService.StartCentering(Data.CenteringInput);
+
+            _cameraCenteringMonobService.StartCentering(Data.CenteringInput);
         }
 
         // Handles mouse input for agent movement

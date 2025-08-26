@@ -8,11 +8,11 @@ namespace Pathfinding.Data
     [DefaultExecutionOrder(100)]
     public class AgentsData
     {
-        [field: SerializeField] public Transform EnemyPrefab;
-        [field: SerializeField] public Transform PlayerPrefab;
-        [field: SerializeField] public Transform PlayerParent;
-        [field: SerializeField] public Transform EnemyParent;
-        [field: SerializeField] public int NumberOfEnemies;
+        [field: SerializeField] public Transform EnemyPrefab { get; private set; }
+        [field: SerializeField] public Transform PlayerPrefab { get; private set; }
+        [field: SerializeField] public Transform PlayerParent { get; private set; }
+        [field: SerializeField] public Transform EnemyParent { get; private set; }
+        [field: SerializeField] public int NumberOfEnemies { get; private set; } = 5;
 
         // List of all enemy agents in the scene
         public List<AgentData> Enemies { get; set; } = new List<AgentData>();
