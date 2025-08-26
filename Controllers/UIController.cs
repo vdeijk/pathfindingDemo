@@ -36,7 +36,7 @@ namespace Pathfinding.Controllers
         // Show level completed UI when level is finished
         private void LevelProgressionService_OnLevelCompleted(object sender, System.EventArgs e)
         {
-            _menuFadeMonobService.Fade(true, _levelCompletedCV);
+            _menuFadeMonobService.StartFade(true, _levelCompletedCV);
 
             _timeScaleService.SetTimeToZero(); // Pause the game
         }
@@ -53,7 +53,7 @@ namespace Pathfinding.Controllers
             _agentSpawnService.SpawnPlayer();
             _agentSpawnService.SpawnEnemies();
 
-            _menuFadeMonobService.Fade(false, _mainMenuCV);
+            _menuFadeMonobService.StartFade(false, _mainMenuCV);
             _timeScaleService.SetTimeToNormal(); // Normal game speed
         }
     }

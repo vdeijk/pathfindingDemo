@@ -6,7 +6,7 @@ namespace Pathfinding.Services
 {
     public class MenuFadeMonobService: MonoBehaviour
     {
-        public void Fade(bool isUIVisible, CanvasGroup canvasGroup)
+        public void StartFade(bool isUIVisible, CanvasGroup canvasGroup)
         {
             if (isUIVisible)
             {

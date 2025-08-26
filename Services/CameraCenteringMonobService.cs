@@ -22,16 +22,16 @@ namespace Pathfinding.Services
         {
             if (!isCentering) return;
 
-            StopAllCoroutines();
             Vector3 pos = _agentCategoryService.Data.Player.MovementData.Rb.transform.position;
-            StartCoroutine(
-                SmoothCentering(pos));
+
+            StopAllCoroutines();
+            StartCoroutine(Center(pos));
 
             _audioMonobService.PlayStartActionSound();
         }
 
         // Smoothly moves camera to target position
-        public IEnumerator SmoothCentering(Vector3 targetPosition)
+        public IEnumerator Center(Vector3 targetPosition)
         {
             Vector3 startPosition = _data.TrackingTargetTransform.position;
             float distance = Vector3.Distance(startPosition, targetPosition);
