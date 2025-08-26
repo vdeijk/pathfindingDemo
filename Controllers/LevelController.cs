@@ -18,11 +18,9 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
-            // Assign spawn data and initialize services
             _levelUtilityService.Init(_gridData);
             _levelGeneratorService.Init(_gridData, _vegetationSpawnData, _propSpawnData);
 
-            // Optionally create a new level at startup
             if (_gridData.CreateLevelOnPlay)
             {
                 CreateLevel();

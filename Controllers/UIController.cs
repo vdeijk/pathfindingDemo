@@ -16,7 +16,6 @@ namespace Pathfinding.Controllers
 
         private void Awake()
         {
-            // Set initial UI state: show main menu, hide level completed screen
             _data.LevelCompletedCV.gameObject.SetActive(false);
             _data.MainMenuCV.gameObject.SetActive(true);
 

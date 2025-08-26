@@ -20,7 +20,6 @@ namespace Pathfinding.Controllers
 
         private void OnEnable()
         {
-            // Subscribe to agent action completion events
             AgentMoveService.OnActionCompleted += AgentMoveService_OnActionCompleted;
         }
 
@@ -31,7 +30,6 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
-            // Initialize agent category and spawn services with Inspector-assigned data
             _agentCategoryService.Init(_data);
             _agentSpawnService.Init(_data);
         }

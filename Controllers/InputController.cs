@@ -14,7 +14,6 @@ namespace Pathfinding.Controllers
 
         private void Awake()
         {
-            // Initialize input service with game data
             _playerInputService.Init(_data);
         }
 

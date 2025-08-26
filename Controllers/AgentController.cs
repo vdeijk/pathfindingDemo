@@ -22,7 +22,6 @@ namespace Pathfinding.Controllers
 
         private void Awake()
         {
-            // Compose AgentData from Inspector-assigned sub-data
             _data = new AgentData();
             _data.MovementData = _movementData;
             _data.AudioData = _audioData;
