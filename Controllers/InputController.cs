@@ -22,14 +22,12 @@ namespace Pathfinding.Controllers
         {
             // Handle user input and game controls
             _playerInputService.ObtainUserInputs();
-            _playerInputService.HandlePauseInput();
 
             if (_playerInputService.Data.AreControlsEnabled)
             {
                 _playerInputService.HandleCameraInput();
                 _playerInputService.HandleMouseInput();
-                _playerInputService.HandleGridInput();
-                _playerInputService.HandleCenteringInput();
+                _playerInputService.HandleOtherInput();
             }
         }
     }

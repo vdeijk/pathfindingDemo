@@ -42,7 +42,7 @@ namespace Pathfinding.Controllers
             _timeScaleService.SetTimeToZero(); // Pause the game
         }
 
-        // Called by UI button to start a new level
+        // Quit game when level is complete
         public void CompleteLevel()
         {
             Application.Quit();

@@ -24,15 +24,9 @@ namespace Pathfinding.Services
         }
 
         // Handles grid visibility toggling
-        public void HandleGridInput()
+        public void HandleOtherInput()
         {
             _levelGeneratorService.ToggleGrid(Data.ShowGridInput);
-        }
-
-        // Handles pause input (expand for pause logic)
-        public void HandlePauseInput()
-        {
-            if (!Data.PauseInput) return;
         }
 
         // Handles camera movement, rotation, and zoom
@@ -41,10 +35,6 @@ namespace Pathfinding.Services
             _overheadCameraService.UpdatePosition(Data.MoveInputs);
             _overheadCameraService.UpdateRotation(Data.RotateInput);
             _overheadCameraService.UpdateZoom(Data.ZoomInput);
-        }
-
-        public void HandleCenteringInput()
-        {
             _overheadCameraService.StartCentering(Data.CenteringInput);
         }
 
