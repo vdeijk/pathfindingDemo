@@ -10,7 +10,7 @@ namespace Pathfinding.Controllers
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;
         [Inject] private LevelUtilityService _levelUtilityService;
-        [Inject] private LevelSpawnService _propSpawnService;
+        [Inject] private LevelSpawnService _levelSpawnService;
 
         [SerializeField] LevelData _gridData;
         [SerializeField] LevelSpawnData _vegetationSpawnData;
@@ -32,11 +32,12 @@ namespace Pathfinding.Controllers
         // Creates a new level and places grid squares and props
         public void CreateLevel()
         {
-            _gridData.ValidGridPositions.Clear();
             DestroySquares();
+            _gridData.ValidGridPositions.Clear();
+
             _levelGeneratorService.CreateGrid();
-            _propSpawnService.SetNoiseMap(_propSpawnData);
-            _propSpawnService.SetNoiseMap(_vegetationSpawnData);
+            _levelSpawnService.SetNoiseMap(_propSpawnData);
+            _levelSpawnService.SetNoiseMap(_vegetationSpawnData);
             _levelGeneratorService.SetEntrancAndExit();
             _levelGeneratorService.PlaceSquares();
         }

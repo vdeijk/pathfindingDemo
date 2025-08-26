@@ -16,7 +16,7 @@ namespace Pathfinding.Controllers
 
         [SerializeField] AgentsData _data;
 
-        public List<AgentData> enemies => _agentCategoryService.Data.Enemies;
+        private List<AgentData> enemies => _agentCategoryService.Data.Enemies;
 
         private void OnEnable()
         {
@@ -63,14 +63,8 @@ namespace Pathfinding.Controllers
             AgentData agent = e.Agent;
             Vector2Int currentPos = _levelUtilityService.GetGridPosition(agent.MovementData.BodyTransform.position);
 
-            if (currentPos == agent.AIData.PointA)
-            {
-                agent.MovementData.TargetPos = agent.AIData.PointB;
-            }
-            else if (currentPos == agent.AIData.PointB)
-            {
-                agent.MovementData.TargetPos = agent.AIData.PointA;
-            }
+            agent.MovementData.TargetPos = (currentPos == agent.AIData.PointA)
+                ? agent.AIData.PointB : agent.AIData.PointA;
 
             e.Agent.AIData.IsWaiting = true;
         }

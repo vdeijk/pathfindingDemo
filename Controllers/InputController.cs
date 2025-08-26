@@ -6,10 +6,9 @@ using Zenject;
 namespace Pathfinding.Controllers
 {
     [DefaultExecutionOrder(-100)]
-    public class GameController : MonoBehaviour
+    public class InputController : MonoBehaviour
     {
         [Inject] private PlayerInputService _playerInputService;
-        [Inject] private LevelProgressionService _levelProgressionService;
 
         [SerializeField] GameData _data;
 
@@ -18,17 +17,6 @@ namespace Pathfinding.Controllers
             // Initialize input service with game data
             _playerInputService.Init(_data);
         }
-
-        private void OnEnable()
-        {
-            // Subscribe to agent action completion events
-            AgentMoveService.OnActionCompleted += AgentMoveService_OnActionCompleted;
-        }
-
-        private void OnDisable()
-        {
-            AgentMoveService.OnActionCompleted -= AgentMoveService_OnActionCompleted;
-        }   
 
         private void Update()
         {
@@ -44,12 +32,5 @@ namespace Pathfinding.Controllers
                 _playerInputService.HandleCenteringInput();
             }
         }
-
-        // Called when an agent completes its action; checks for level completion
-        private void AgentMoveService_OnActionCompleted(object sender, ActionCompletedEventArgs e)
-        {
-            _levelProgressionService.CheckCompletion(e.Agent.MovementData);
-        }
-
     }
 }

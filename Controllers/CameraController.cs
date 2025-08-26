@@ -16,7 +16,6 @@ namespace Pathfinding.Controllers
         private void Start()
         {
             Init();
-            // Initialize camera service with camera data
             _overheadCameraService.Init(_data);
             _cameraCenteringMonobService.Init(_data);
 

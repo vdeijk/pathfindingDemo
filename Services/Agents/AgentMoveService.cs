@@ -25,6 +25,7 @@ namespace Pathfinding.Services
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private AgentAnimationService _agentAnimationService;
         [Inject] private AudioMonobService _audioController;
+        [Inject] private LevelProgressionService _levelProgressionService;
 
         public static event EventHandler<ActionCompletedEventArgs> OnActionCompleted;
 
@@ -92,6 +93,8 @@ namespace Pathfinding.Services
             data.MovementData.CurAnimationState = AgentAnimationType.Idle;
             _agentAnimationService.Animate(data);
             if (!data.AIData.IsEnemy) _audioController.PlayEndActionSound();
+
+            _levelProgressionService.CheckCompletion(data.MovementData);
 
             OnActionCompleted?.Invoke(this, new ActionCompletedEventArgs(data));
         }

@@ -10,6 +10,7 @@ namespace Pathfinding.Controllers
     {
         [Inject] private AgentSpawnService _agentSpawnService;
         [Inject] private MenuFadeMonobService _menuFadeMonobService;
+        [Inject] private TimeScaleService _timeScaleService;
 
         [SerializeField] UIData _data;
 
@@ -19,7 +20,7 @@ namespace Pathfinding.Controllers
             _data.LevelCompletedCV.gameObject.SetActive(false);
             _data.MainMenuCV.gameObject.SetActive(true);
 
-            Time.timeScale = 0f; // Pause the game at start
+            _timeScaleService.SetTimeToZero(); // Pause the game
         }
 
         private void OnEnable()
@@ -38,7 +39,7 @@ namespace Pathfinding.Controllers
         {
             _menuFadeMonobService.Fade(true, _data.LevelCompletedCV);
 
-            Time.timeScale = 0f;
+            _timeScaleService.SetTimeToZero(); // Pause the game
         }
 
         // Called by UI button to start a new level
@@ -54,8 +55,7 @@ namespace Pathfinding.Controllers
             _agentSpawnService.SpawnEnemies();
 
             _menuFadeMonobService.Fade(false, _data.MainMenuCV);
-
-            Time.timeScale = 1f;
+            _timeScaleService.SetTimeToNormal(); // Normal game speed
         }
     }
 }
