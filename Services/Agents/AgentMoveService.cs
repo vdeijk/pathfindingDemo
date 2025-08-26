@@ -77,6 +77,19 @@ namespace Pathfinding.Services
             if (!data.AIData.IsEnemy) _audioController.PlayStartActionSound();
         }
 
+        // Teleports the player agent to the entrance position
+        public void TeleportPlayerToEntrance()
+        {
+            AgentData data = _agentCategoryService.Data.Player;
+            Vector2Int entrance = _levelGeneratorService.Data.Entrance;
+
+            Vector3 nextWorldPos = _levelUtilityService.GetWorldPosition(entrance);
+
+            data.MovementData.Rb.MovePosition(nextWorldPos);
+
+            _levelAgentService.AddAgent(data);
+        }
+
         // Handles completion of movement/action and resets agent state
         private void CompleteAction(AgentData data)
         {
@@ -165,19 +178,6 @@ namespace Pathfinding.Services
             );
 
             data.Rb.MoveRotation(newRotation);
-        }
-
-        // Teleports the player agent to the entrance position
-        public void TeleportPlayerToEntrance()
-        {
-            AgentData data = _agentCategoryService.Data.Player;
-            Vector2Int entrance = _levelGeneratorService.Data.Entrance;
-
-            Vector3 nextWorldPos = _levelUtilityService.GetWorldPosition(entrance);
-
-            data.MovementData.Rb.MovePosition(nextWorldPos);
-
-            _levelAgentService.AddAgent(data);
         }
     }
 }
