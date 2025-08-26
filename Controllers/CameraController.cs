@@ -15,10 +15,14 @@ namespace Pathfinding.Controllers
 
         private void Start()
         {
-            // Sets camera pan limits based on terrain mesh size
-            _data.MaxPanX = _data.TerrainMesh.bounds.size.x;
-            _data.MaxPanY = _data.TerrainMesh.bounds.size.z;
-            _data.MaxPanY = _data.TerrainMesh.bounds.size.z;
+            // Get LevelPlane bounds
+            Bounds planeBounds = _data.LevelPlane.GetComponent<MeshRenderer>().bounds;
+
+            // Clamp position to plane bounds
+            _data.MinPosX = planeBounds.min.x;
+            _data.MaxPosX = planeBounds.max.x;
+            _data.MinPosZ = planeBounds.min.z;
+            _data.MaxPosZ = planeBounds.max.z;
 
             _overheadCameraService.Init(_data);
             _cameraCenteringMonobService.Init(_data);

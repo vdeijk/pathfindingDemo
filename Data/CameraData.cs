@@ -20,7 +20,11 @@ namespace Pathfinding.Data
 
         // Runtime camera state
         public float DefaultZoom { get; set; }
-        public float MaxPanX { get; set; }
-        public float MaxPanY { get; set; }
+
+        // Cam movement boundaries
+        public float MinPosX { get; set; }
+        public float MaxPosX { get; set; }
+        public float MinPosZ { get; set; }
+        public float MaxPosZ { get; set; }
     }
 }

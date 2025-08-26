@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Pathfinding.Data
 {
     [Serializable]
-    public class GameData
+    public class InputData
     {
         // Stores current game and input state
         public bool AreControlsEnabled { get; set; } = true;

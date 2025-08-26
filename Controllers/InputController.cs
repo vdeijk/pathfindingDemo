@@ -10,7 +10,7 @@ namespace Pathfinding.Controllers
     {
         [Inject] private PlayerInputService _playerInputService;
 
-        [SerializeField] GameData _data;
+        [SerializeField] InputData _data;
 
         private void Awake()
         {

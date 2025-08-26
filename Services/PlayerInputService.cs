@@ -8,7 +8,7 @@ namespace Pathfinding.Services
     [DefaultExecutionOrder(200)]
     public class PlayerInputService
     {
-        public GameData Data;
+        public InputData Data;
 
         [Inject] private MouseWorldService _mouseWorldService;
         [Inject] private LevelGeneratorService _levelGeneratorService;
@@ -18,7 +18,7 @@ namespace Pathfinding.Services
         [Inject] private AgentMoveService _agentMoveService;
 
         // Initializes the service with Inspector-assigned game data
-        public void Init(GameData data)
+        public void Init(InputData data)
         {
             Data = data;
         }

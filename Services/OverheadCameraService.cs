@@ -55,17 +55,8 @@ namespace Pathfinding.Services
             Vector3 moveVector = Data.TrackingTargetTransform.forward * cameraMoveInputs.z + Data.TrackingTargetTransform.right * cameraMoveInputs.x;
             Vector3 newPos = Data.TrackingTargetTransform.position + moveVector * moveSpeed * Time.unscaledDeltaTime;
 
-            // Get LevelPlane bounds
-            Bounds planeBounds = Data.LevelPlane.GetComponent<MeshRenderer>().bounds;
-
-            // Clamp position to plane bounds
-            float minX = planeBounds.min.x;
-            float maxX = planeBounds.max.x;
-            float minZ = planeBounds.min.z;
-            float maxZ = planeBounds.max.z;
-
-            float clampedX = Mathf.Clamp(newPos.x, minX, maxX);
-            float clampedZ = Mathf.Clamp(newPos.z, minZ, maxZ);
+            float clampedX = Mathf.Clamp(newPos.x, Data.MinPosX, Data.MaxPosX);
+            float clampedZ = Mathf.Clamp(newPos.z, Data.MinPosZ, Data.MaxPosZ);
 
             Data.TrackingTargetTransform.position = new Vector3(clampedX, Data.TrackingTargetTransform.position.y, clampedZ);
         }

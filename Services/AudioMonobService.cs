@@ -28,9 +28,9 @@ namespace Pathfinding.Services
         // Starts a fade coroutine for the given audio data
         public void StartFade(AudioData data)
         {
-            if (data.FadeRoutine != null) StopCoroutine(data.FadeRoutine);
+            StopAllCoroutines();
 
-            data.FadeRoutine = StartCoroutine(Fade(data));
+            StartCoroutine(Fade(data));
         }
 
         // Fades the volume of an AudioSource from initial value to target value over duration
