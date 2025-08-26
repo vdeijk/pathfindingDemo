@@ -6,7 +6,7 @@ using Zenject;
 namespace Pathfinding.Services
 {
     [DefaultExecutionOrder(200)]
-    public class InputService
+    public class PlayerInputService
     {
         public GameData Data;
 

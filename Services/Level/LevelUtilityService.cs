@@ -7,44 +7,11 @@ namespace Pathfinding.Services
     [DefaultExecutionOrder(100)]
     public class LevelUtilityService
     {
-        [Inject] private LevelGeneratorService _levelGeneratorService;
+        public LevelData Data { get; set; }
 
-        public GridData Data { get; set; }
-
-        // Initializes the service with Inspector-assigned grid data
-        public void Init(GridData data)
+        public void Init(LevelData data)
         {
             Data = data;
-        }
-
-        // Checks if a grid position is walkable for agents
-        public bool IsWalkable(Vector2Int gridPosition)
-        {
-            // Check if the position is within the grid bounds
-            bool isWidthOutsideGrid = gridPosition.x < 0 || gridPosition.x >= Data.Width;
-            bool isHeightOutsideGrid = gridPosition.y < 0 || gridPosition.y >= Data.Height;
-            if (isWidthOutsideGrid || isHeightOutsideGrid)
-            {
-                return false;
-            }
-
-            GridSquareData gridObject = _levelGeneratorService.Data.Squares[gridPosition.x, gridPosition.y];
-
-            // Grid squares with these types are considered non-walkable
-            bool isInaccessible = gridObject.GridSquareType.Contains(GridSquareType.Inaccessible);
-            bool isSteep = gridObject.GridSquareType.Contains(GridSquareType.Steep);
-            if (isSteep || isInaccessible)
-            {
-                return false;
-            }
-
-            // If there are any agents present on the grid square, it's not walkable
-            if (gridObject.Agents.Count > 0)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         // Converts grid position to world position

@@ -5,7 +5,7 @@ using Zenject;
 namespace Pathfinding.Services
 {
     [DefaultExecutionOrder(100)]
-    public class GridAgentService
+    public class LevelAgentService
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;
         [Inject] private LevelUtilityService _levelUtilityService;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Pathfinding.Data
 {
     [Serializable]
-    public class GridSpawnData
+    public class LevelSpawnData
     {
         [field: SerializeField] public Transform Parent { get; private set; }
         [field: SerializeField] public float NoiseScale { get; private set; }

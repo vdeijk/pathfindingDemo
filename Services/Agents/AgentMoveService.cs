@@ -19,7 +19,7 @@ namespace Pathfinding.Services
     public class AgentMoveService
     {
         [Inject] private AgentCategoryService _agentCategoryService;
-        [Inject] private GridAgentService _gridAgentService;
+        [Inject] private LevelAgentService _levelAgentService;
         [Inject] private LevelGeneratorService _levelGeneratorService;
         [Inject] private AgentPathService _agentPathService;
         [Inject] private LevelUtilityService _levelUtilityService;
@@ -57,7 +57,7 @@ namespace Pathfinding.Services
         // Starts a new movement action for the agent
         public void StartAction(AgentData data)
         {
-            GridData gridData = _levelGeneratorService.Data;
+            LevelData gridData = _levelGeneratorService.Data;
 
             bool isRangeValid = gridData.ValidGridPositions.Contains(data.MovementData.TargetPos);
 
@@ -174,7 +174,7 @@ namespace Pathfinding.Services
 
             data.MovementData.Rb.MovePosition(nextWorldPos);
 
-            _gridAgentService.AddAgent(data);
+            _levelAgentService.AddAgent(data);
         }
     }
 }

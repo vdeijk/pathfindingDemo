@@ -8,15 +8,15 @@ namespace Pathfinding.Controllers
     [DefaultExecutionOrder(-100)]
     public class GameController : MonoBehaviour
     {
-        [Inject] private InputService _inputService;
+        [Inject] private PlayerInputService _playerInputService;
         [Inject] private LevelProgressionService _levelProgressionService;
 
-        [SerializeField] GameData Data;
+        [SerializeField] GameData _data;
 
         private void Awake()
         {
             // Initialize input service with game data
-            _inputService.Init(Data);
+            _playerInputService.Init(_data);
         }
 
         private void OnEnable()
@@ -33,15 +33,15 @@ namespace Pathfinding.Controllers
         private void Update()
         {
             // Handle user input and game controls
-            _inputService.ObtainUserInputs();
-            _inputService.HandlePauseInput();
+            _playerInputService.ObtainUserInputs();
+            _playerInputService.HandlePauseInput();
 
-            if (_inputService.Data.AreControlsEnabled)
+            if (_playerInputService.Data.AreControlsEnabled)
             {
-                _inputService.HandleCameraInput();
-                _inputService.HandleMouseInput();
-                _inputService.HandleGridInput();
-                _inputService.HandleCenteringInput();
+                _playerInputService.HandleCameraInput();
+                _playerInputService.HandleMouseInput();
+                _playerInputService.HandleGridInput();
+                _playerInputService.HandleCenteringInput();
             }
         }
 

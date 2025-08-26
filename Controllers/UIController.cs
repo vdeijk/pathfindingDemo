@@ -1,6 +1,7 @@
 using Pathfinding.Services;
 using UnityEngine;
 using Zenject;
+using Pathfinding.Data;
 
 namespace Pathfinding.Controllers
 {
@@ -10,15 +11,13 @@ namespace Pathfinding.Controllers
         [Inject] private AgentSpawnService _agentSpawnService;
         [Inject] private MenuFadeMonobService _menuFadeMonobService;
 
-        [SerializeField] CanvasGroup _levelCompletedCV;
-        [SerializeField] CanvasGroup _mainMenuCV;
-
+        [SerializeField] UIData _data;
 
         private void Awake()
         {
             // Set initial UI state: show main menu, hide level completed screen
-            _levelCompletedCV.gameObject.SetActive(false);
-            _mainMenuCV.gameObject.SetActive(true);
+            _data.LevelCompletedCV.gameObject.SetActive(false);
+            _data.MainMenuCV.gameObject.SetActive(true);
 
             Time.timeScale = 0f; // Pause the game at start
         }
@@ -37,7 +36,7 @@ namespace Pathfinding.Controllers
         // Show level completed UI when level is finished
         private void LevelProgressionService_OnLevelCompleted(object sender, System.EventArgs e)
         {
-            _menuFadeMonobService.Fade(true, _levelCompletedCV);
+            _menuFadeMonobService.Fade(true, _data.LevelCompletedCV);
 
             Time.timeScale = 0f;
         }
@@ -54,7 +53,7 @@ namespace Pathfinding.Controllers
             _agentSpawnService.SpawnPlayer();
             _agentSpawnService.SpawnEnemies();
 
-            _menuFadeMonobService.Fade(false, _mainMenuCV);
+            _menuFadeMonobService.Fade(false, _data.MainMenuCV);
 
             Time.timeScale = 1f;
         }

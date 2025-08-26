@@ -6,26 +6,26 @@ using Zenject;
 namespace Pathfinding.Services
 {
     [DefaultExecutionOrder(100)]
-    public class PropSpawnService
+    public class LevelSpawnService
     {
         [Inject] private LevelGeneratorService _levelGeneratorService;
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private DiContainer _container;
 
         // Shortcut to grid data
-        private GridData Data => _levelGeneratorService.Data;
+        private LevelData _data => _levelGeneratorService.Data;
 
         // Generates a noise map for procedural prop/vegetation spawning
-        public void SetNoiseMap(GridSpawnData gridSpawnData)
+        public void SetNoiseMap(LevelSpawnData gridSpawnData)
         {
-            gridSpawnData.NoiseMap = new Texture2D(Data.Width, Data.Height, TextureFormat.RGB24, false);
+            gridSpawnData.NoiseMap = new Texture2D(_data.Width, _data.Height, TextureFormat.RGB24, false);
 
-            for (int x = 0; x < Data.Width; x++)
+            for (int x = 0; x < _data.Width; x++)
             {
-                for (int y = 0; y < Data.Height; y++)
+                for (int y = 0; y < _data.Height; y++)
                 {
-                    float nx = (float)x / Data.Width * gridSpawnData.NoiseScale;
-                    float ny = (float)y / Data.Height * gridSpawnData.NoiseScale;
+                    float nx = (float)x / _data.Width * gridSpawnData.NoiseScale;
+                    float ny = (float)y / _data.Height * gridSpawnData.NoiseScale;
                     float noise = Mathf.PerlinNoise(nx, ny);
                     gridSpawnData.NoiseMap.SetPixel(x, y, new Color(0, noise, 0));
                 }
@@ -35,7 +35,7 @@ namespace Pathfinding.Services
         }
 
         // Attempts to spawn vegetation based on noise and threshold
-        public void TrySpawnVegetation(GridSquareData squareData, GridSpawnData spawnData)
+        public void TrySpawnVegetation(GridSquareData squareData, LevelSpawnData spawnData)
         {
             float noiseValue = spawnData.NoiseMap.GetPixel(squareData.GridPosition.x, squareData.GridPosition.y).g;
             float threshold = Random.Range(spawnData.ThresholdMin, spawnData.ThresholdMax);
@@ -53,7 +53,7 @@ namespace Pathfinding.Services
         }
 
         // Attempts to spawn props based on noise and threshold
-        public bool TrySpawnProps(GridSquareData squareData, GridSpawnData spawnData)
+        public bool TrySpawnProps(GridSquareData squareData, LevelSpawnData spawnData)
         {
             float noiseValue = spawnData.NoiseMap.GetPixel(squareData.GridPosition.x, squareData.GridPosition.y).g;
             float threshold = Random.Range(spawnData.ThresholdMin, spawnData.ThresholdMax);
@@ -68,7 +68,7 @@ namespace Pathfinding.Services
         }
 
         // Spawns a random prefab at the grid square position with random scale
-        private void Spawn(GridSquareData squareData, GridSpawnData spawnData)
+        private void Spawn(GridSquareData squareData, LevelSpawnData spawnData)
         {
             List<Vector3> spawnPositions = new List<Vector3>();
             Vector3 newPos = _levelUtilityService.GetWorldPosition(squareData.GridPosition);

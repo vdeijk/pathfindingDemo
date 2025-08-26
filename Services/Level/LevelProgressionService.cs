@@ -19,7 +19,6 @@ namespace Pathfinding.Services
 
             if (curPos == _levelGeneratorService.Data.Exit)
             {
-                Debug.Log("Level Completed!");
                 OnLevelCompleted?.Invoke(this, EventArgs.Empty);
             }
         }

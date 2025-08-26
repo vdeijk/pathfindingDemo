@@ -14,34 +14,34 @@ namespace Pathfinding.Controllers
         [Inject] private OverheadCameraService _overheadCameraService;
         [Inject] private AgentPathService _agentPathService;
 
-        [SerializeField] MovementData MovementData;
-        [SerializeField] AudioData AudioData;
-        [SerializeField] AIData AIData;
+        [SerializeField] MovementData _movementData;
+        [SerializeField] AudioData _audioData;
+        [SerializeField] AIData _aiData;
 
-        public AgentData Data;
+        private AgentData _data;
 
         private void Awake()
         {
             // Compose AgentData from Inspector-assigned sub-data
-            Data = new AgentData();
-            Data.MovementData = MovementData;
-            Data.AudioData = AudioData;
-            Data.AIData = AIData;
+            _data = new AgentData();
+            _data.MovementData = _movementData;
+            _data.AudioData = _audioData;
+            _data.AIData = _aiData;
         }
 
         private void Start()
         {
             // Animate agent and register with category service
-            _agentAnimationService.Animate(Data);
+            _agentAnimationService.Animate(_data);
 
-            if (AIData.IsEnemy)
+            if (_aiData.IsEnemy)
             {
-                _agentCategoryService.AddEnemy(Data);
-                _agentPathService.InitPatrol(Data); // Set up patrol for enemy
+                _agentCategoryService.AddEnemy(_data);
+                _agentPathService.InitPatrol(_data); // Set up patrol for enemy
             }
             else
             {
-                _agentCategoryService.AddPlayer(Data);
+                _agentCategoryService.AddPlayer(_data);
                 _overheadCameraService.InitPosition(); // Set camera for player
             }
         }
@@ -49,7 +49,7 @@ namespace Pathfinding.Controllers
         private void Update()
         {
             // Update agent movement/action each frame
-            _agentMoveService.UpdateAction(Data);
+            _agentMoveService.UpdateAction(_data);
         }
     }
 }

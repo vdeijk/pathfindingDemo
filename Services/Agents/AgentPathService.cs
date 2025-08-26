@@ -14,23 +14,23 @@ namespace Pathfinding.Services
         [Inject] private LevelUtilityService _levelUtilityService;
         [Inject] private AgentMoveService _agentMoveService;
 
-        /// <summary>
-        /// Represents a node in the pathfinding graph, storing position, parent, and cost values.
-        /// </summary>
+        private LevelData _data => _levelGeneratorService.Data;
+
+        // Represents a node in the pathfinding graph, storing position, parent, and cost values.
         public class Node
         {
-            public Vector2Int position; // Position of the node on the grid
-            public Node parent; // Parent node in the path
-            public int gCost; // Cost from start node
-            public int hCost; // Heuristic cost to goal
-            public int FCost => gCost + hCost; // Total cost
+            public Vector2Int Position; // Position of the node on the grid
+            public Node Parent; // Parent node in the path
+            public int GCost; // Cost from start node
+            public int HCost; // Heuristic cost to goal
+            public int FCost => GCost + HCost; // Total cost
 
             public Node(Vector2Int pos, Node parent, int gCost, int hCost)
             {
-                this.position = pos;
-                this.parent = parent;
-                this.gCost = gCost;
-                this.hCost = hCost;
+                Position = pos;
+                Parent = parent;
+                GCost = gCost;
+                HCost = hCost;
             }
         }
 
@@ -71,10 +71,9 @@ namespace Pathfinding.Services
             _agentMoveService.StartAction(enemy);
         }
 
-        /// <summary>
-        /// Finds the shortest path from start to goal using the A* algorithm.
-        /// </summary>
-        /// <returns>List of grid positions representing the path, or null if no path found</returns>
+
+        // Finds the shortest path from start to goal using the A* algorithm.
+        // <returns>List of grid positions representing the path, or null if no path found</returns>
         public List<Vector2Int> FindPath(MovementData data)
         {
             int gridWidth = _levelGeneratorService.Data.Width;
@@ -94,27 +93,25 @@ namespace Pathfinding.Services
                 for (int i = 1; i < openSet.Count; i++)
                 {
                     if (openSet[i].FCost < current.FCost ||
-                        (openSet[i].FCost == current.FCost && openSet[i].hCost < current.hCost))
+                        (openSet[i].FCost == current.FCost && openSet[i].HCost < current.HCost))
                     {
                         current = openSet[i];
                     }
                 }
 
                 // If goal reached, reconstruct and return path
-                if (current.position.Equals(data.TargetPos))
+                if (current.Position.Equals(data.TargetPos))
                 {
                     return ReconstructPath(current);
                 }
 
                 openSet.Remove(current);
-                closedSet.Add(current.position);
+                closedSet.Add(current.Position);
 
                 // Evaluate neighbors
-                foreach (var neighbor in GetNeighbors(current.position, gridWidth, gridHeight))
+                foreach (var neighbor in GetNeighbors(current.Position, gridWidth, gridHeight))
                 {
-                    bool isWalkable = _levelUtilityService.IsWalkable(neighbor);
-
-                    if (!isWalkable || closedSet.Contains(neighbor)) continue;
+                    if (!IsWalkable(neighbor) || closedSet.Contains(neighbor)) continue;
 
                     // Default cost for normal tiles
                     int moveCost = 1;
@@ -126,18 +123,18 @@ namespace Pathfinding.Services
                         moveCost = _levelGeneratorService.Data.ForestCost;
                     }
 
-                    int tentativeGCost = current.gCost + moveCost;
+                    int tentativeGCost = current.GCost + moveCost;
 
-                    Node neighborNode = openSet.Find(n => n.position.Equals(neighbor));
+                    Node neighborNode = openSet.Find(n => n.Position.Equals(neighbor));
                     if (neighborNode == null)
                     {
                         neighborNode = new Node(neighbor, current, tentativeGCost, GetHeuristic(neighbor, data.TargetPos));
                         openSet.Add(neighborNode);
                     }
-                    else if (tentativeGCost < neighborNode.gCost)
+                    else if (tentativeGCost < neighborNode.GCost)
                     {
-                        neighborNode.gCost = tentativeGCost;
-                        neighborNode.parent = current;
+                        neighborNode.GCost = tentativeGCost;
+                        neighborNode.Parent = current;
                     }
                 }
             }
@@ -146,32 +143,26 @@ namespace Pathfinding.Services
             return null;
         }
 
-        /// <summary>
-        /// Reconstructs the path from the goal node to the start node.
-        /// </summary>
+        // Reconstructs the path from the goal node to the start node.
         private static List<Vector2Int> ReconstructPath(Node node)
         {
             var path = new List<Vector2Int>();
             while (node != null)
             {
-                path.Add(node.position);
-                node = node.parent;
+                path.Add(node.Position);
+                node = node.Parent;
             }
             path.Reverse();
             return path;
         }
 
-        /// <summary>
-        /// Calculates the Manhattan distance heuristic between two grid positions.
-        /// </summary>
+        // Calculates the Manhattan distance heuristic between two grid positions.
         private static int GetHeuristic(Vector2Int a, Vector2Int b)
         {
             return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
         }
 
-        /// <summary>
-        /// Returns the neighboring grid positions (up, down, left, right) within grid bounds.
-        /// </summary>
+        // Returns the neighboring grid positions (up, down, left, right) within grid bounds.
         private static IEnumerable<Vector2Int> GetNeighbors(Vector2Int pos, int gridWidth, int gridHeight)
         {
             var directions = new[]
@@ -190,6 +181,36 @@ namespace Pathfinding.Services
                     yield return neighbor;
                 }
             }
+        }
+
+        // Checks if a grid position is walkable for agents
+        private bool IsWalkable(Vector2Int gridPosition)
+        {
+            // Check if the position is within the grid bounds
+            bool isWidthOutsideGrid = gridPosition.x < 0 || gridPosition.x >= _data.Width;
+            bool isHeightOutsideGrid = gridPosition.y < 0 || gridPosition.y >= _data.Height;
+            if (isWidthOutsideGrid || isHeightOutsideGrid)
+            {
+                return false;
+            }
+
+            GridSquareData gridObject = _levelGeneratorService.Data.Squares[gridPosition.x, gridPosition.y];
+
+            // Grid squares with these types are considered non-walkable
+            bool isInaccessible = gridObject.GridSquareType.Contains(GridSquareType.Inaccessible);
+            bool isSteep = gridObject.GridSquareType.Contains(GridSquareType.Steep);
+            if (isSteep || isInaccessible)
+            {
+                return false;
+            }
+
+            // If there are any agents present on the grid square, it's not walkable
+            if (gridObject.Agents.Count > 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
